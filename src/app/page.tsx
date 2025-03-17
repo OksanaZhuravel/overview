@@ -1,103 +1,77 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { AssetAnalytics } from '@/components/asset/asset-analytics'
+import { AssetForm } from '@/components/asset/asset-form'
+import { AssetList } from '@/components/asset/asset-list'
+import { Decor } from '@/components/ui/decor/decor'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
+import useWebSocket from '@/hooks/useWebSocket'
+import {
+	getAssetsFromLocalStorage,
+	saveAssetsToLocalStorage,
+} from '@/lib/localStorageAsset'
+import { Asset } from '@/types'
+import { Bitcoin } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+const Home = () => {
+	const [assets, setAssets] = useState<Asset[]>([])
+	const assetSymbols = assets.map((asset) => asset.symbol)
+	const prices = useWebSocket(assetSymbols) // Получаем данные из WebSocket
+
+	useEffect(() => {
+		const storedAssets = getAssetsFromLocalStorage()
+		if (storedAssets) {
+			setAssets(storedAssets)
+		}
+	}, [])
+
+	useEffect(() => {
+		saveAssetsToLocalStorage(assets)
+	}, [assets])
+
+	const handleAddAsset = (newAsset: Asset) => {
+		setAssets((prev) => [...prev, newAsset])
+	}
+
+	const handleDeleteAsset = (assetId: string) => {
+		setAssets((prev) => prev.filter((asset) => asset.id !== assetId))
+	}
+
+	// Общая стоимость портфеля
+	const totalPortfolioValue = assets.reduce((sum, asset) => {
+		const price = prices[asset.symbol]?.currentPrice || 0
+		return sum + asset.quantity * price
+	}, 0)
+
+	return (
+		<div className='w-full h-screen p-20 flex flex-col items-center gap-7 relative'>
+			<h1 className='text-2xl font-bold'>Ваши Активы</h1>
+			<Popover>
+				<PopoverTrigger className='flex gap-2 cursor-pointer border border-accent rounded-md px-4 py-1 text-center'>
+					Добавить
+					<Bitcoin />
+				</PopoverTrigger>
+				<PopoverContent>
+					<AssetForm onAddAsset={handleAddAsset} />
+				</PopoverContent>
+			</Popover>
+
+			<AssetAnalytics assets={assets} totalValue={totalPortfolioValue} />
+
+			<AssetList
+				assets={assets}
+				prices={prices}
+				totalValue={totalPortfolioValue}
+				onDeleteAsset={handleDeleteAsset}
+			/>
+			<Decor />
+		</div>
+	)
 }
+
+export default Home
