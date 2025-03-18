@@ -47,4 +47,4 @@ bun dev
 
 ## Ссылка на развернутое приложение с помощью Vercel.
 
-[https://vercel.com/aksana/overview](https://vercel.com/aksana/overview)
+[https://overview-chi.vercel.app/](https://overview-chi.vercel.app/)
