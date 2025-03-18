@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useEffect } from 'react'
 
 const useBinanceSymbols = () => {
-	// const [symbols, setSymbols] = useState<SymbolInfo[]>([])
 	const setSymbols = useSymbolStore((state) => state.setSymbols)
 
 	useEffect(() => {
@@ -33,7 +32,7 @@ const useBinanceSymbols = () => {
 							change24h: ticker ? parseFloat(ticker.priceChangePercent) : 0,
 						}
 					})
-					.filter((symbol: any) => symbol.currentPrice > 1) // Фильтруем символы с currentPrice > 0.01
+					.filter((symbol: any) => symbol.currentPrice > 1) // Фильтруем символы с currentPrice > 1
 
 				setSymbols(symbolsWithPrices)
 			} catch (error) {

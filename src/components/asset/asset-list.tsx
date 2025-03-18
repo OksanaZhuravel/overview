@@ -27,11 +27,10 @@ export const AssetList = ({
 		<div className='w-full flex flex-col gap-4 items-center'>
 			{assets.length === 0 ? (
 				<>
-					<p className='text-xs'>У вас нет активов</p>
-					<p className='text-xs'>Добавить актив в портфель</p>
+					<p>У вас нет активов</p>
 					<Dialog>
 						<DialogTrigger className='flex gap-2 cursor-pointer border border-accent rounded-md px-4 py-1 text-center hover:bg-accent hover:text-white'>
-							Добавить
+							Добавить актив в портфель
 							<Bitcoin />
 						</DialogTrigger>
 						<DialogContent>

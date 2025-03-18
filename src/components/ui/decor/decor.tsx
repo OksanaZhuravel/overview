@@ -3,16 +3,22 @@ import { cn } from '@/lib/utils'
 import {
 	BadgeCent,
 	BadgeDollarSign,
+	BadgeEuro,
+	BadgeIndianRupee,
+	BadgeJapaneseYen,
 	BadgePercent,
+	BadgePoundSterling,
 	BadgeSwissFranc,
-	Bitcoin,
 	CircleDollarSign,
 } from 'lucide-react'
 import { JSX, useEffect, useState } from 'react'
 
 const icons = [
-	Bitcoin,
 	BadgeCent,
+	BadgeEuro,
+	BadgeIndianRupee,
+	BadgePoundSterling,
+	BadgeJapaneseYen,
 	BadgeDollarSign,
 	BadgePercent,
 	BadgeSwissFranc,
@@ -20,10 +26,10 @@ const icons = [
 ]
 
 const positions = [
-	{ top: 'top-10/12', right: 'right-80' },
-	{ top: 'top-1/2', right: 'right-10' },
+	{ top: 'top-4', right: 'right-80' },
+	{ top: 'top-0', right: 'left-80' },
 	{ bottom: 'bottom-0', right: 'left-10' },
-	{ bottom: 'bottom-1/3', left: 'left-40' },
+	{ bottom: 'bottom-6', left: 'right-40' },
 ]
 
 const shuffleArray = (array: any[]) => {

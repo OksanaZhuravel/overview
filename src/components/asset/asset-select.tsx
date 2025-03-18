@@ -30,18 +30,19 @@ export const AssetSelect = ({ field, onSelect, value }: AssetSelectProps) => {
 	}
 
 	const handleSymbolClick = (symbol: SymbolInfo) => {
-		setSearch(symbol.symbol)
+		setSearch(symbol.baseAsset)
+
 		onSelect(symbol.symbol)
 		setShowList(false)
 	}
-  // Сброс состояния при изменении значения поля
-    useEffect(() => {
-        if (value === '') {
-            setSearch('')
-            setShowList(false)
-        }
-    }, [value])
-		
+
+	useEffect(() => {
+		if (value === '') {
+			setSearch('')
+			setShowList(false)
+		}
+	}, [value])
+
 	return (
 		<FormItem className='relative px-0'>
 			<FormControl>

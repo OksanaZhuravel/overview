@@ -1,6 +1,5 @@
 'use client'
 
-import { AssetAnalytics } from '@/components/asset/asset-analytics'
 import { AssetForm } from '@/components/asset/asset-form'
 import { AssetList } from '@/components/asset/asset-list'
 import { Decor } from '@/components/ui/decor/decor'
@@ -40,7 +39,26 @@ const Home = () => {
 	}, [assets])
 
 	const handleAddAsset = (newAsset: Asset) => {
-		setAssets((prev) => [...prev, newAsset])
+		setAssets((prevAssets) => {
+			const existingAsset = prevAssets.find(
+				(asset) => asset.symbol === newAsset.symbol
+			)
+			if (existingAsset) {
+				const updatedAssets = prevAssets.map((asset) =>
+					asset.symbol === newAsset.symbol
+						? {
+								...asset,
+								quantity: asset.quantity + newAsset.quantity,
+								totalValue:
+									(asset.quantity + newAsset.quantity) * newAsset.currentPrice,
+						  }
+						: asset
+				)
+				return updatedAssets
+			} else {
+				return [...prevAssets, newAsset]
+			}
+		})
 	}
 
 	const handleDeleteAsset = (assetId: string) => {
@@ -48,7 +66,7 @@ const Home = () => {
 	}
 
 	// Общая стоимость портфеля
-	const totalPortfolioValue = assets.reduce((sum, asset) => {
+	const allValue = assets.reduce((sum, asset) => {
 		const price = prices[asset.symbol]?.currentPrice || asset.currentPrice
 		return sum + asset.quantity * price
 	}, 0)
@@ -58,9 +76,7 @@ const Home = () => {
 		const currentPrice =
 			prices[asset.symbol]?.currentPrice || asset.currentPrice
 		const totalAssetValue = asset.quantity * currentPrice
-		const portfolioShare = totalPortfolioValue
-			? (totalAssetValue / totalPortfolioValue) * 100
-			: 0
+		const portfolioShare = allValue ? (totalAssetValue / allValue) * 100 : 0
 		return {
 			...asset,
 			currentPrice,
@@ -71,9 +87,8 @@ const Home = () => {
 
 	return (
 		<div className='w-full h-screen  flex flex-col items-center gap-7 relative'>
-			<div className=' flex justify-between w-full items-center pb-8 bg-grey-400 p-20 '>
+			<div className=' flex justify-between w-full items-center pb-8 bg-grey-400 p-10 '>
 				<h1 className='text-2xl font-bold'>Ваши Активы</h1>
-
 				<Dialog>
 					<DialogTrigger className='flex gap-2 cursor-pointer border border-accent rounded-md px-4 py-1 text-center hover:bg-accent hover:text-white'>
 						Добавить
@@ -81,7 +96,7 @@ const Home = () => {
 					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
-							<DialogTitle>Добавить актив из списка</DialogTitle>
+							<DialogTitle>Добавить актив</DialogTitle>
 							<DialogDescription asChild>
 								<AssetForm onAddAsset={handleAddAsset} />
 							</DialogDescription>
@@ -93,11 +108,18 @@ const Home = () => {
 				<AssetList
 					assets={updatedAssets}
 					prices={prices}
-					totalValue={totalPortfolioValue}
+					totalValue={allValue}
 					onDeleteAsset={handleDeleteAsset}
 					onAddAsset={handleAddAsset}
 				/>
-				<AssetAnalytics assets={assets} totalValue={totalPortfolioValue} />
+				<div className='pb-15 w-full flex flex-col items-center gap-4'>
+					<h2 className='font-bold text-3xl'>
+						Общая сумма активов:{' '}
+						<span className='text-accent font-black'>
+							${allValue.toFixed(4)}
+						</span>
+					</h2>
+				</div>
 			</div>
 			<Decor />
 		</div>

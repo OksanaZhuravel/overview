@@ -14,6 +14,7 @@ import { Asset, AssetFormProps } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { DialogClose } from '../ui/dialog'
 
 const assetSchema = z.object({
 	symbol: z.string().nonempty('Выберите актив'),
@@ -110,18 +111,20 @@ export const AssetForm = ({ onAddAsset }: AssetFormProps) => {
 				/>
 				<div className='flex w-full items-center justify-between'>
 					<Button type='submit'>Добавить</Button>
-					<Button
-						variant={'destructive'}
-						type='reset'
-						onClick={() => {
-							reset({
-								symbol: '',
-								quantity: '',
-							})
-						}}
-					>
-						Сбросить
-					</Button>
+					<DialogClose asChild>
+						<Button
+							variant={'destructive'}
+							type='reset'
+							onClick={() => {
+								reset({
+									symbol: '',
+									quantity: '',
+								})
+							}}
+						>
+							Закрыть
+						</Button>
+					</DialogClose>
 				</div>
 			</form>
 		</Form>

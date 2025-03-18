@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react'
 export interface Asset {
 	id: string
 	name: string
-	symbol: string // Добавляем symbol
+	symbol: string
 	quantity: number
 	currentPrice: number
 	totalValue: number
@@ -11,15 +11,8 @@ export interface Asset {
 	portfolioShare: number
 }
 
-export interface AllAssets {
-	totalValue: number
-	assets: Asset[]
-	totalChangePercentage: number
-}
-
 export interface AnalyticsProps {
-	assets: Asset[]
-	totalValue: number // Добавляем totalValue
+	totalValue: number
 }
 export interface AssetListProps {
 	assets: Asset[]
