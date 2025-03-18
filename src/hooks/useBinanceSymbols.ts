@@ -1,9 +1,10 @@
-import { SymbolInfo } from '@/types'
+import useSymbolStore from '@/store/useSymbolStore'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const useBinanceSymbols = () => {
-	const [symbols, setSymbols] = useState<SymbolInfo[]>([])
+	// const [symbols, setSymbols] = useState<SymbolInfo[]>([])
+	const setSymbols = useSymbolStore((state) => state.setSymbols)
 
 	useEffect(() => {
 		const fetchSymbols = async () => {
@@ -23,14 +24,16 @@ const useBinanceSymbols = () => {
 				)
 				const tickers = tickersResponse.data
 
-				const symbolsWithPrices = pairs.map((pair: any) => {
-					const ticker = tickers.find((t: any) => t.symbol === pair.symbol)
-					return {
-						...pair,
-						currentPrice: ticker ? parseFloat(ticker.lastPrice) : 0,
-						change24h: ticker ? parseFloat(ticker.priceChangePercent) : 0,
-					}
-				})
+				const symbolsWithPrices = pairs
+					.map((pair: any) => {
+						const ticker = tickers.find((t: any) => t.symbol === pair.symbol)
+						return {
+							...pair,
+							currentPrice: ticker ? parseFloat(ticker.lastPrice) : 0,
+							change24h: ticker ? parseFloat(ticker.priceChangePercent) : 0,
+						}
+					})
+					.filter((symbol: any) => symbol.currentPrice > 1) // Фильтруем символы с currentPrice > 0.01
 
 				setSymbols(symbolsWithPrices)
 			} catch (error) {
@@ -41,7 +44,7 @@ const useBinanceSymbols = () => {
 		fetchSymbols()
 	}, [])
 
-	return symbols
+	return useSymbolStore((state) => state.symbols)
 }
 
 export default useBinanceSymbols

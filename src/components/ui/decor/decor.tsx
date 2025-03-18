@@ -20,11 +20,9 @@ const icons = [
 ]
 
 const positions = [
-	{ top: 'top-1/4', left: 'left-40' },
-	{ top: 'top-1/3', left: 'left-10' },
-	{ top: 'top-1/6', right: 'right-40' },
+	{ top: 'top-10/12', right: 'right-80' },
 	{ top: 'top-1/2', right: 'right-10' },
-	{ bottom: 'bottom-1/4', right: 'right-10' },
+	{ bottom: 'bottom-0', right: 'left-10' },
 	{ bottom: 'bottom-1/3', left: 'left-40' },
 ]
 
@@ -42,7 +40,7 @@ const RandomIcon = ({ icon, position }: { icon: any; position: any }) => {
 	return (
 		<Icon
 			className={cn(
-				'stroke-1 absolute w-20 h-20 text-accent hover:text-foreground hover:scale-105 transition-transform duration-500',
+				'stroke-1 absolute w-20 h-20 text-accent hover:text-foreground hover:scale-105 transition-transform duration-500 ',
 				position.top,
 				position.left,
 				position.right,

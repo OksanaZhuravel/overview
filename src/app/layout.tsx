@@ -8,7 +8,7 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
-	title: 'Portfolio Overview',
+	title: 'Ваши финансы',
 	description: 'Ваши финансы в одном месте',
 }
 
@@ -19,7 +19,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='ru'>
-			<body className={`${geistSans.variable}`}>{children}</body>
+			<body className={`${geistSans.variable}`}>
+			{children}
+			</body>
 		</html>
 	)
 }

@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 export interface Asset {
 	id: string
 	name: string
@@ -7,7 +9,6 @@ export interface Asset {
 	totalValue: number
 	changePercentage: number
 	portfolioShare: number
-	previousPrice: number
 }
 
 export interface AllAssets {
@@ -25,6 +26,7 @@ export interface AssetListProps {
 	prices: Record<string, any> // Добавляем prices
 	onDeleteAsset: (id: string) => void
 	totalValue: number
+	onAddAsset: (asset: Asset) => void
 }
 export interface AssetItemProps {
 	asset: Asset
@@ -40,4 +42,13 @@ export interface SymbolInfo {
 	baseAsset: string
 	currentPrice: number
 	change24h: number
+}
+
+export interface AssetSelectProps {
+	field: {
+		onChange: (event: ChangeEvent<HTMLInputElement>) => void
+		value: string
+	}
+	onSelect: (value: string) => void
+	value?: string
 }

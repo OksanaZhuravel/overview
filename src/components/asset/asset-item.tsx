@@ -1,36 +1,31 @@
-// import React from 'react'
-// import { AssetItemProps } from '@/types'
-
-// const AssetItem: React.FC<AssetItemProps> = ({ asset, onDelete }) => {
-// 	return (
-// 		<div className='asset-item'>
-// 			<p>{asset.name}</p>
-// 			<p>{asset.quantity}</p>
-// 			<p>{asset.currentPrice}</p>
-// 			<p>{asset.totalValue}</p>
-// 			<p>{asset.changePercentage}%</p>
-// 			<p>{asset.portfolioShare}%</p>
-// 			<button onClick={() => onDelete(asset.id)}>Delete</button>
-// 		</div>
-// 	)
-// }
-
-// export default AssetItem
-
+import { TableCell, TableRow } from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 import { AssetItemProps } from '@/types'
-
+import { Button } from '../ui/button'
 export const AssetItem = ({ asset, onDelete }: AssetItemProps) => {
 	return (
-		<div className='asset-item'>
-			<p>
-				{asset.name} ({asset.symbol})
-			</p>
-			<p>{asset.quantity}</p>
-			<p>${asset.currentPrice.toFixed(2)}</p>
-			<p>${asset.totalValue.toFixed(2)}</p>
-			<p>{asset.changePercentage.toFixed(2)}%</p>
-			<p>{asset.portfolioShare}%</p>
-			<button onClick={() => onDelete(asset.id)}>Delete</button>
-		</div>
+		<TableRow>
+			<TableCell className='font-medium text-accent'>{asset.name}</TableCell>
+			<TableCell>{asset.quantity}</TableCell>
+			<TableCell>{asset.currentPrice.toFixed(2)}$</TableCell>
+			<TableCell>{asset.totalValue.toFixed(2)}$</TableCell>
+			<TableCell
+				className={cn(
+					asset.changePercentage < 0 ? 'text-red-700' : 'text-green-600'
+				)}
+			>
+				{asset.changePercentage.toFixed(2)}%
+			</TableCell>
+			<TableCell>{asset.portfolioShare.toFixed(2)}%</TableCell>
+			<TableCell className='text-right'>
+				<Button
+					size={'sm'}
+					variant={'outline'}
+					onClick={() => onDelete(asset.id)}
+				>
+					Удалить
+				</Button>
+			</TableCell>
+		</TableRow>
 	)
 }
