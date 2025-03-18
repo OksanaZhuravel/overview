@@ -46,7 +46,7 @@ const RandomIcon = ({ icon, position }: { icon: any; position: any }) => {
 	return (
 		<Icon
 			className={cn(
-				'stroke-1 absolute w-20 h-20 text-accent hover:text-foreground hover:scale-105 transition-transform duration-500 ',
+				'hidden md:block stroke-1 absolute w-10 h-10 xl:w-20 xl:h-20 text-accent hover:text-foreground hover:scale-105 transition-transform duration-500 ',
 				position.top,
 				position.left,
 				position.right,

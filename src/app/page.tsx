@@ -86,9 +86,9 @@ const Home = () => {
 	})
 
 	return (
-		<div className='w-full h-screen  flex flex-col items-center gap-7 relative'>
-			<div className=' flex justify-between w-full items-center pb-8 bg-grey-400 p-10 '>
-				<h1 className='text-2xl font-bold'>Ваши Активы</h1>
+		<div className='w-full h-screen p-4 flex flex-col items-center gap-2 xl:gap-7 relative'>
+			<div className='flex-col md:flex-row flex justify-between w-full items-center pb-2 md:pb-8 bg-grey-400  xl:p-10 '>
+				<h1 className='md:text-2xl font-bold'>Ваши Активы</h1>
 				<Dialog>
 					<DialogTrigger className='flex gap-2 cursor-pointer border border-accent rounded-md px-4 py-1 text-center hover:bg-accent hover:text-white'>
 						Добавить
@@ -104,7 +104,7 @@ const Home = () => {
 					</DialogContent>
 				</Dialog>
 			</div>
-			<div className='px-20 w-full h-full flex flex-col justify-between items-center'>
+			<div className='md:px-10 px-0 xl:px-20 w-full h-full flex flex-col justify-between items-center'>
 				<AssetList
 					assets={updatedAssets}
 					prices={prices}
@@ -112,8 +112,8 @@ const Home = () => {
 					onDeleteAsset={handleDeleteAsset}
 					onAddAsset={handleAddAsset}
 				/>
-				<div className='pb-15 w-full flex flex-col items-center gap-4'>
-					<h2 className='font-bold text-3xl'>
+				<div className='pb-4 md:pb-15 w-full flex flex-col items-center gap-4'>
+					<h2 className='font-bold md:text-3xl'>
 						Общая сумма активов:{' '}
 						<span className='text-accent font-black'>
 							${allValue.toFixed(4)}

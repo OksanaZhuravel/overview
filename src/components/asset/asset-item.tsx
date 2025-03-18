@@ -1,7 +1,8 @@
+import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import { AssetItemProps } from '@/types'
-import { Button } from '../ui/button'
+import { Trash2 } from 'lucide-react'
 export const AssetItem = ({ asset, onDelete }: AssetItemProps) => {
 	return (
 		<TableRow>
@@ -23,7 +24,7 @@ export const AssetItem = ({ asset, onDelete }: AssetItemProps) => {
 					variant={'outline'}
 					onClick={() => onDelete(asset.id)}
 				>
-					Удалить
+					<Trash2 />
 				</Button>
 			</TableCell>
 		</TableRow>
