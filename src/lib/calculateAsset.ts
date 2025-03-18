@@ -7,12 +7,6 @@ function calculateTotalValue(assets: Asset[]): number {
 	)
 }
 
-function calculatePercentageChange(asset: Asset): number {
-	return (
-		((asset.currentPrice - asset.previousPrice) / asset.previousPrice) * 100
-	)
-}
-
 function calculatePortfolioShare(assets: Asset[], totalValue: number): Asset[] {
 	return assets.map((asset) => ({
 		...asset,
@@ -20,8 +14,4 @@ function calculatePortfolioShare(assets: Asset[], totalValue: number): Asset[] {
 	}))
 }
 
-export {
-	calculatePercentageChange,
-	calculatePortfolioShare,
-	calculateTotalValue,
-}
+export { calculatePortfolioShare, calculateTotalValue }
