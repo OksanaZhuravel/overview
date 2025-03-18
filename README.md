@@ -40,3 +40,11 @@ bun dev
 - Radix UI: Набор компонентов для создания пользовательских интерфейсов.
 - Tailwind CSS: Утилитарный CSS-фреймворк.
 - Lucide React: Иконки для React-приложений.
+
+## Ссылка на GitHub-репозиторий с проектом.
+
+[https://github.com/OksanaZhuravel/overview](https://github.com/OksanaZhuravel/overview)
+
+## Ссылка на развернутое приложение с помощью Vercel.
+
+[https://vercel.com/aksana/overview](https://vercel.com/aksana/overview)
